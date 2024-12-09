@@ -1,0 +1,38 @@
+/* Ensure the table layout is fixed */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed; /* Ensures fixed column widths */
+    margin-top: 20px;
+}
+
+/* Style for table headers and cells */
+th, td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+    word-wrap: break-word; /* Wraps text in case it exceeds the column width */
+}
+
+/* Specify widths for each column */
+th:nth-child(1), td:nth-child(1) {
+    width: 20%; /* Adjust to fit your needs */
+}
+
+th:nth-child(2), td:nth-child(2) {
+    width: 20%;
+}
+
+th:nth-child(3), td:nth-child(3) {
+    width: 20%;
+}
+
+th:nth-child(4), td:nth-child(4) {
+    width: 40%; /* Notes column gets more space */
+}
+
+/* Error message styling */
+.error {
+    color: red;
+    font-weight: bold;
+}

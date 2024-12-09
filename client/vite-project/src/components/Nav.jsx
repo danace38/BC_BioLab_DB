@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import "./Nav.css";
+import './Nav.css';
 import logo from '../assets/bc_round_Logo.png';
 
 function NavBar() {
@@ -21,8 +21,11 @@ function NavBar() {
           <button onClick={() => handleNavigation('/home')} className="nav-link">
             Home
           </button>
+          <button onClick={() => handleNavigation('/experiments')} className="nav-link">
+            Experiments  
+          </button>
           <button onClick={() => handleNavigation('/query')} className="nav-link">
-            Query Test
+            Query 
           </button>
           <button onClick={() => handleNavigation('/logout')} className="nav-link">
             Logout

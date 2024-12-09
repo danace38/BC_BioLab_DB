@@ -1,50 +1,22 @@
-.modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding-left: 50px;
-  }
-  
-  .modal-content {
-    background-color:white;
-    padding: 50px;
-    border-radius: 50px;
-    width: 450px;
-    text-align: center;
-    left:100%
-  }
-  
-  .modal input {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 1000px;
-  }
-  
-  .modal button {
-    width: 100%;
-    padding: 10px;
-    margin-top: 10px;
-  }
-  
-  .close-button {
-    background-color: #f44336;
-    color: white;
-    border: none;
-    padding: 10px;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-top: 10px;
-  }
-  
-  .close-button:hover {
-    background-color: #d32f2f;
-  }
-  
+.computer-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1000; /* Ensure it's on top */
+}
+
+.computer-modal input,
+.computer-modal textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}

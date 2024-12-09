@@ -13,7 +13,6 @@ const Query = () => {
     const [successMessage, setSuccessMessage] = useState(null);
     const [editingRow, setEditingRow] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
-    const [recordId, setRecordId] = useState(''); // For manual delete form
 
     const tables = [
         'experiment', 'run', 'barcode', 'computer', 'library_prep',
@@ -101,17 +100,12 @@ const Query = () => {
             try {
                 const url = `http://localhost:8000/api/data/delete/${tableName}/${row.id}`;
                 const response = await fetch(url, { method: 'DELETE' });
-    
-                // Check if the response is JSON
+
                 if (response.ok) {
                     const result = await response.json();
                     setData(prevData => prevData.filter(item => item.id !== row.id));
                     setSuccessMessage('Row deleted successfully!');
                 } else {
-                    // Log the response text for debugging purposes
-                    const text = await response.text();
-                    console.error('Delete failed with status:', response.status);
-                    console.error('Response text:', text);
                     throw new Error('Failed to delete row');
                 }
             } catch (error) {
@@ -121,48 +115,11 @@ const Query = () => {
             }
         }
     };
-    
 
-    const handleManualDelete = async (e) => {
-        e.preventDefault();
-
-        // Get form values
-        const tableName = document.getElementById('tableName').value;
-        const recordId = document.getElementById('recordId').value;
-
-        // Reset result message
-        const resultDiv = document.getElementById('result');
-        resultDiv.textContent = '';
-
-        if (!tableName || !recordId) {
-            resultDiv.textContent = "Please provide both table name and record ID.";
-            resultDiv.style.color = 'red';
-            return;
-        }
-
-        setIsLoading(true);
-        try {
-            // Send DELETE request
-            const response = await fetch(`http://localhost:8000/api/data/delete/${tableName}/${recordId}`, {
-                method: 'DELETE',
-            });
-
-            const result = await response.json();
-
-            if (response.ok) {
-                resultDiv.textContent = result.message || 'Record deleted successfully';
-                resultDiv.style.color = 'green';
-                fetchData(); // Refresh data after deletion
-            } else {
-                resultDiv.textContent = result.message || 'Failed to delete record';
-                resultDiv.style.color = 'red';
-            }
-        } catch (error) {
-            resultDiv.textContent = `Error: ${error.message}`;
-            resultDiv.style.color = 'red';
-        } finally {
-            setIsLoading(false);
-        }
+    const filterIdColumn = (row) => {
+        // Return the row excluding the 'id' field
+        const { id, ...rest } = row;
+        return rest;
     };
 
     return (
@@ -203,7 +160,7 @@ const Query = () => {
                         <table className="query-table">
                             <thead>
                                 <tr>
-                                    {data.length > 0 && Object.keys(data[0]).map(key => (
+                                    {data.length > 0 && Object.keys(data[0]).filter(key => key !== 'id').map(key => (
                                         <th key={key} className="query-th">{key}</th>
                                     ))}
                                     <th className="query-th">Actions</th>
@@ -220,7 +177,7 @@ const Query = () => {
                                         />
                                     ) : (
                                         <tr key={index}>
-                                            {Object.values(row).map((value, idx) => (
+                                            {Object.entries(filterIdColumn(row)).map(([key, value], idx) => (
                                                 <td key={idx} className="query-td">{value}</td>
                                             ))}
                                             <td className="query-td">
@@ -245,7 +202,6 @@ const Query = () => {
                     </div>
                 </>
             )}
-
 
             <div className="pagination">
                 <button onClick={handlePrevPage} className="pagination-button" disabled={currentPage === 1}>Previous Page</button>

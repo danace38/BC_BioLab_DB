@@ -1,33 +1,22 @@
-select, input[type="date"] {
-  width: 100%; 
-  padding: 10px; 
-  font-size: 16px; 
-  border-radius: 5px; 
-  border: 1px solid #ccc; 
-  box-sizing: border-box; 
-  margin-bottom: 10px; 
+.minion-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1000; /* Ensure it's on top */
 }
 
-input, textarea {
-  width: 100%; 
+.minion-modal input,
+.minion-modal textarea {
+  width: 100%;
   padding: 10px;
-  font-size: 16px;
-  margin-bottom: 10px;
-  border-radius: 5px;
+  margin-bottom: 15px;
   border: 1px solid #ccc;
-  box-sizing: border-box;
-}
-
-button {
-  padding: 10px 15px;
-  font-size: 16px;
-  background-color: #333;
-  color: white;
-  border: none;
   border-radius: 5px;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #555;
+  font-size: 16px;
 }

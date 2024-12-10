@@ -1,42 +1,123 @@
 .runs-container {
-    font-family: Arial, sans-serif;
-    margin: 20px;
+  font-family: Arial, sans-serif;
+  margin: 20px;
+}
+
+h1 {
+  font-size: 2rem;
+  text-align: center;
+  margin-top: 75px;
+}
+
+h2 {
+  font-size: 1.5rem;
+  margin-top: 10px;
+  text-align: center;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 12px 8px; /* Increased padding for readability */
+  text-align: left;
+}
+
+th {
+  background-color: #f4f4f4;
+  font-weight: bold; /* Ensures table headers stand out */
+}
+
+.error {
+  color: red;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.experiment-name {
+  color: red;
+}
+
+.buttons-group {
+  display: flex;
+  justify-content: center;
+  gap: 15px; /* Space between buttons */
+  margin-top: 20px;
+  flex-wrap: wrap; /* Allows wrapping of buttons on smaller screens */
+}
+
+.add-run-button,
+.add-operator-button,
+.add-barcode-button,
+.add-libprep-button,
+.add-sequencing-unit-button {
+  padding: 5px 10px; /* Adjust padding for better button size */
+  font-size: 14px;
+  cursor: pointer;
+  border: none;
+  border-radius: 4px;
+  background-color: #007bff;
+  color: white;
+  transition: background-color 0.3s;
+  width: 140px; /* Ensures all buttons have the same width */
+  text-align: center;
+  box-sizing: border-box;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Soft shadow for a modern feel */
+}
+
+.add-run-button:hover,
+.add-operator-button:hover,
+.add-barcode-button:hover,
+.add-libprep-button:hover,
+.add-sequencing-unit-button:hover {
+  background-color: #0056b3;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Darker shadow on hover */
+}
+
+
+/* Add responsiveness for smaller screens */
+@media (max-width: 500x) {
+  .add-run-button,
+  .add-operator-button,
+  .add-barcode-button,
+  .add-libprep-button,
+  .add-sequnit-button {
+    width: 100%; /* Buttons take up full width on smaller screens */
+    margin-bottom: 10px;
   }
-  
-  h1 {
-    font-size: 2rem;
-    text-align: center;
-    margin-top:75px;
-  }
-  
-  h2 {
-    font-size: 1.5rem;
-    margin-top: 10px;
-    text-align: center;
-  }
-  
+
   table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
+    font-size: 0.9rem; /* Adjust font size for tables on smaller screens */
   }
-  
+
   th, td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: left;
+    padding: 20px 6px; /* Slightly smaller padding for smaller screens */
   }
-  
-  th {
-    background-color: #f4f4f4;
+
+  h1 {
+    font-size: 1.8rem; /* Adjust header size for medium screens */
   }
-  
-  .error {
-    color: red;
-    text-align: center;
-    margin-top: 20px;
+
+  h2 {
+    font-size: 1.3rem; /* Adjust sub-header size for medium screens */
   }
-  
-  .experiment-name {
-    color: red;
+}
+
+@media (max-width: 480px) {
+  h1 {
+    font-size: 1.6rem; /* Reduce header size for small screens */
   }
+
+  h2 {
+    font-size: 1.2rem; /* Reduce sub-header size for small screens */
+  }
+
+  .buttons-group {
+    flex-direction: column; /* Stack buttons vertically on very small screens */
+    gap: 10px; /* Reduce space between buttons */
+  }
+}

@@ -48,3 +48,29 @@ h1 {
 .clickable:hover {
   text-decoration: underline; /* Optionally, underline the text when hovered for better UX */
 }
+
+.simple-button {
+  background-color: #007bff;  /* Blue background */
+  color: white;  /* White text */
+  border: none;
+  padding: 5px 8px;  /* Smaller padding */
+  font-size: 12px;  /* Smaller font size */
+  cursor: pointer;
+  border-radius: 4px;  /* Rounded corners */
+  margin: 5px 2px;  /* Small margin between buttons */
+  width: auto;  /* Prevent buttons from stretching to full width */
+  max-width: 120px;  /* Set maximum width for the buttons */
+  transition: background-color 0.3s ease;
+}
+
+.simple-button:hover {
+  background-color: #0056b3;  /* Darker blue on hover */
+}
+
+.simple-button:focus {
+  outline: none;  /* Remove focus outline */
+}
+
+.simple-button:active {
+  background-color: #003d7a;  /* Darker blue on active */
+}

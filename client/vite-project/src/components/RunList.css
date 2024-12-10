@@ -1,38 +1,38 @@
-/* Ensure the table layout is fixed */
-table {
+.runs-container {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+  }
+  
+  h1 {
+    font-size: 2rem;
+    text-align: center;
+  }
+  
+  h2 {
+    font-size: 1.5rem;
+    margin-top: 10px;
+    text-align: center;
+  }
+  
+  table {
     width: 100%;
     border-collapse: collapse;
-    table-layout: fixed; /* Ensures fixed column widths */
     margin-top: 20px;
-}
-
-/* Style for table headers and cells */
-th, td {
-    border: 1px solid #ccc;
+  }
+  
+  th, td {
+    border: 1px solid #ddd;
     padding: 8px;
     text-align: left;
-    word-wrap: break-word; /* Wraps text in case it exceeds the column width */
-}
-
-/* Specify widths for each column */
-th:nth-child(1), td:nth-child(1) {
-    width: 20%; /* Adjust to fit your needs */
-}
-
-th:nth-child(2), td:nth-child(2) {
-    width: 20%;
-}
-
-th:nth-child(3), td:nth-child(3) {
-    width: 20%;
-}
-
-th:nth-child(4), td:nth-child(4) {
-    width: 40%; /* Notes column gets more space */
-}
-
-/* Error message styling */
-.error {
+  }
+  
+  th {
+    background-color: #f4f4f4;
+  }
+  
+  .error {
     color: red;
-    font-weight: bold;
-}
+    text-align: center;
+    margin-top: 20px;
+  }
+  

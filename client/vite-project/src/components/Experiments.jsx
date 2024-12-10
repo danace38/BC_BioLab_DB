@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Experiments.css';
-import Nav from './Nav';
+import Nav from '../components/Nav';
 
-const API_BASE_URL = 'http://localhost:8000/api/data/experiment?limit=50&offset=0'; // Fetch experiments with pagination
+const API_BASE_URL = 'http://localhost:8000/api/data/experiment?limit=50&offset=0';
 
-function Experiments() {
+const Experiments = () => {
   const [experiments, setExperiments] = useState([]);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
@@ -33,31 +33,35 @@ function Experiments() {
     fetchExperiments();
   }, []);
 
+  const handleExperimentClick = (experimentId) => {
+    navigate(`/runs?experimentId=${experimentId}`);
+  };
+
   const renderContent = () => {
     if (loading) return <p>Loading experiments...</p>;
     if (error) return <p className="error">{error}</p>;
     if (experiments.length === 0) return <p>No experiments found.</p>;
 
     return (
-      <table className="experiment-table">
+      <table>
         <thead>
           <tr>
             <th>Name</th>
-            <th>Experiment Start Date</th>
             <th>Date Submitted</th>
+            <th>Date Started</th>
           </tr>
         </thead>
         <tbody>
           {experiments.map((experiment) => (
             <tr key={experiment.id}>
               <td
-                onClick={() => navigate(`/run?experimentId=${experiment.id}`)}
-                className="experiment-link"
+                className="clickable"
+                onClick={() => handleExperimentClick(experiment.id)}
               >
                 {experiment.name}
               </td>
-              <td>{experiment.date_started || 'N/A'}</td>
-              <td>{experiment.date || 'N/A'}</td>
+              <td>{new Date(experiment.date).toLocaleDateString()}</td>
+              <td>{experiment.date_started ? new Date(experiment.date_started).toLocaleDateString() : 'N/A'}</td>
             </tr>
           ))}
         </tbody>
@@ -69,10 +73,10 @@ function Experiments() {
     <div className="experiment-container">
       <Nav />
       <h1>Experiments</h1>
-      <p>Hint: You can click on the Experiment name to view its runs</p>
+      <p>Hint: Click on the experiment name to view its runs</p>
       <div id="output">{renderContent()}</div>
     </div>
   );
-}
+};
 
 export default Experiments;

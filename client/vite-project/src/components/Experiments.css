@@ -38,3 +38,13 @@ h1 {
   color: red;
   margin: 10px 0;
 }
+
+/* Add this to your Experiments.css file */
+.clickable {
+  color: red; /* Highlight the text in red */
+  cursor: pointer; /* Change the cursor to a pointer when hovering */
+}
+
+.clickable:hover {
+  text-decoration: underline; /* Optionally, underline the text when hovered for better UX */
+}

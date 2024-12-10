@@ -28,7 +28,7 @@ const Query = () => {
         setError(null);
         setSuccessMessage(null); // Reset success message on new fetch
         try {
-            let url = `http://localhost:8000/api/data/${tableName}?page=${currentPage}&limit=20`;
+            let url = `http://localhost:8000/api/data/${tableName}?page=${currentPage}&limit=50`;
             if (keyword) {
                 url += `&search=${encodeURIComponent(keyword)}`;
             }

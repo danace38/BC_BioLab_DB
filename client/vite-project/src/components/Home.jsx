@@ -3,6 +3,7 @@ import Nav from "../components/Nav";
 import AddComputer from '../components/AddComputer';
 import AddMinion from '../components/AddMinion';
 import AddExperiment from '../components/AddExperiment'; // Updated import
+import Experiments from '../components/Experiments'; // Import the Experiments component
 import './Home.css';
 
 function Home() {
@@ -61,10 +62,9 @@ function Home() {
     <div className="home">
       <Nav />
       <main className="main-content">
-        {isLoading && <p>Loading...</p>}
         {error && <p className="error-message">{error}</p>}
 
-        <p className="select-message">WARNING: Admin use ONLY!</p>
+        <p className="select-message">WARNING: Get approval from ADMIN to use these functions!</p>
 
         <div className="button-container">
           <button className="black-button" onClick={handleAddComputerClick}>Add Computer</button>
@@ -92,6 +92,9 @@ function Home() {
           onClose={handleCloseModal} 
           onSubmit={handleExperimentSubmit} 
         />
+
+        {/* Add Experiments Section */}
+        <Experiments />
       </main>
     </div>
   );

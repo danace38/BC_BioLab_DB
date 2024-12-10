@@ -1,14 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Nav from "../components/Nav";
-import './Experiments.css'; 
+import './Experiments.css';
+import Nav from './Nav';
 
-const API_BASE_URL = 'http://localhost:8000/api/data/experiment';
+const API_BASE_URL = 'http://localhost:8000/api/data/experiment?limit=50&offset=0'; // Fetch experiments with pagination
 
 function Experiments() {
   const [experiments, setExperiments] = useState([]);
   const [error, setError] = useState('');
-  const navigate = useNavigate(); // Initialize navigate function
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchExperiments = async () => {
@@ -22,48 +23,54 @@ function Experiments() {
         } else {
           setError('Failed to load experiments');
         }
-      } catch (err) {
-        setError(`Error: ${err.message}`);
+      } catch (error) {
+        setError(`Error: ${error.message}`);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchExperiments();
   }, []);
 
-  const handleViewRuns = (experimentId) => {
-    // Navigate to the RunList component with the experimentId as a query parameter
-    navigate(`/runs?experimentId=${experimentId}`);
+  const renderContent = () => {
+    if (loading) return <p>Loading experiments...</p>;
+    if (error) return <p className="error">{error}</p>;
+    if (experiments.length === 0) return <p>No experiments found.</p>;
+
+    return (
+      <table className="experiment-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Experiment Start Date</th>
+            <th>Date Submitted</th>
+          </tr>
+        </thead>
+        <tbody>
+          {experiments.map((experiment) => (
+            <tr key={experiment.id}>
+              <td
+                onClick={() => navigate(`/run?experimentId=${experiment.id}`)}
+                className="experiment-link"
+              >
+                {experiment.name}
+              </td>
+              <td>{experiment.date_started || 'N/A'}</td>
+              <td>{experiment.date || 'N/A'}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    );
   };
 
   return (
-    <div className="experiment-list">
+    <div className="experiment-container">
       <Nav />
       <h1>Experiments</h1>
-      {error && <p className="error">{error}</p>}
-      {experiments.length > 0 ? (
-        <table>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {experiments.map((experiment) => (
-              <tr key={experiment.id}>
-                <td>{experiment.name}</td>
-                <td>
-                  <button onClick={() => handleViewRuns(experiment.id)}>
-                    View Runs
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      ) : (
-        !error && <p>No experiments found.</p>
-      )}
+      <p>Hint: You can click on the Experiment name to view its runs</p>
+      <div id="output">{renderContent()}</div>
     </div>
   );
 }

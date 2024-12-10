@@ -1,25 +1,40 @@
-.experiment-list {
-    font-family: Arial, sans-serif;
-    margin: 20px;
-  }
-  
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-  }
-  
-  th, td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: left;
-  }
-  
-  th {
-    background-color: #f4f4f4;
-  }
-  
-  .error {
-    color: red;
-  }
-  
+.experiment-container {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+  text-align: center; /* This centers the content inside the container */
+}
+
+h1 {
+  font-size: 2rem;
+  margin-bottom: 20px; /* Adds some space between the header and the table */
+}
+
+.experiment-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.experiment-table th, .experiment-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.experiment-table th {
+  background-color: #f4f4f4;
+}
+
+.experiment-link {
+  color: #007bff;
+  cursor: pointer;
+}
+
+.experiment-link:hover {
+  text-decoration: underline;
+}
+
+.error {
+  color: red;
+  margin: 10px 0;
+}

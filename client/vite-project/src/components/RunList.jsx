@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Nav from "./Nav";
 
-function RunPage() {
+function RunList() {
   const [runs, setRuns] = useState([]);
   const [experimentId, setExperimentId] = useState(null);
 
@@ -83,4 +83,4 @@ function RunPage() {
   );
 }
 
-export default RunPage;
+export default RunList;

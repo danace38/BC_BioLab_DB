@@ -21,9 +21,6 @@ function NavBar() {
           <button onClick={() => handleNavigation('/home')} className="nav-link">
             Home
           </button>
-          <button onClick={() => handleNavigation('/experiments')} className="nav-link">
-            Experiments  
-          </button>
           <button onClick={() => handleNavigation('/query')} className="nav-link">
             Query 
           </button>

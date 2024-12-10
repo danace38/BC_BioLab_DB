@@ -9,41 +9,26 @@ const RunList = () => {
   const [error, setError] = useState('');
   const location = useLocation();
 
-  // Extract experiment ID from the URL search params
+  // Extract experiment ID and name from the URL search params
   const experimentId = new URLSearchParams(location.search).get('experimentId');
+  const experimentNameFromUrl = new URLSearchParams(location.search).get('experimentName'); // Extract experiment name from query
+  console.log('Experiment ID:', experimentId); // Log for debugging
 
   useEffect(() => {
     if (experimentId) {
-      fetchExperimentName(experimentId);  // Fetch experiment name
-      fetchRuns(experimentId);            // Fetch runs for the experiment
+      setExperimentName(experimentNameFromUrl); // Set the experiment name from the URL
+      fetchRuns(experimentId);                   // Fetch runs for the experiment
     } else {
       setError('No Experiment ID Found');
     }
-  }, [experimentId]);
-
-  // Fetch experiment name from the API
-  const fetchExperimentName = async (experimentId) => {
-    try {
-      const response = await fetch(`http://localhost:8000/api/data/experiment/${experimentId}`);
-      const experiment = await response.json();
-
-      if (response.ok && experiment && experiment.name) {
-        setExperimentName(experiment.name);
-      } else {
-        setExperimentName('Experiment Name Not Found');
-      }
-    } catch (error) {
-      setError(`Error: ${error.message}`);
-    }
-  };
+  }, [experimentId, experimentNameFromUrl]);
 
   // Fetch runs for the experiment from the API
   const fetchRuns = async (experimentId) => {
     try {
       const response = await fetch('http://localhost:8000/api/data/run');
-      const allRuns = await response.json();
-
       if (response.ok) {
+        const allRuns = await response.json();
         const filteredRuns = allRuns.filter(run => run.experiment_id === parseInt(experimentId));
         setRuns(filteredRuns);
       } else {
@@ -90,7 +75,7 @@ const RunList = () => {
     <div className="runs-container">
       <Nav />
       <h1>Runs for Experiment</h1>
-      <h2>{experimentName ? `Experiment: ${experimentName}` : 'Loading experiment details...'}</h2>
+      <h2>{experimentName ? `Experiment: ${experimentName}` : 'Loading experiment details...'}</h2> {/* Display experiment name */}
       {error && <p className="error">{error}</p>}
       {renderTable()}
     </div>

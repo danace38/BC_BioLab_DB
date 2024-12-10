@@ -13,6 +13,21 @@ const Edit = ({ row, onSave, onCancel }) => {
       setEditedRow({ ...editedRow, [key]: e.target.value });
   };
 
+  // Function to format the date before sending to the backend
+  const formatDateForMySQL = (date) => {
+      const d = new Date(date);
+      return d.toISOString().slice(0, 19).replace('T', ' ');
+  };
+
+  const handleSave = () => {
+      // Ensure the date is formatted correctly before saving
+      if (editedRow.date) {
+          editedRow.date = formatDateForMySQL(editedRow.date);
+      }
+      // Call the onSave callback with the edited row
+      onSave(editedRow);
+  };
+
   return (
       <tr className="edit-row">
           {Object.entries(editedRow).map(([key, value]) => (
@@ -26,7 +41,7 @@ const Edit = ({ row, onSave, onCancel }) => {
               </td>
           ))}
           <td>
-              <button onClick={() => onSave(editedRow)} className="save-button">Save</button>
+              <button onClick={handleSave} className="save-button">Save</button>
               <button onClick={onCancel} className="cancel-button">Cancel</button>
           </td>
       </tr>

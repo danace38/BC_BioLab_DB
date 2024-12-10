@@ -33,8 +33,9 @@ const Experiments = () => {
     fetchExperiments();
   }, []);
 
-  const handleExperimentClick = (experimentId) => {
-    navigate(`/runs?experimentId=${experimentId}`);
+  const handleExperimentClick = (experimentId, experimentName) => {
+    // Pass experiment ID and name in the URL query parameters
+    navigate(`/runs?experimentId=${experimentId}&experimentName=${experimentName}`);
   };
 
   const renderContent = () => {
@@ -55,13 +56,13 @@ const Experiments = () => {
           {experiments.map((experiment) => (
             <tr key={experiment.id}>
               <td
-                className="clickable"
-                onClick={() => handleExperimentClick(experiment.id)}
+                onClick={() => handleExperimentClick(experiment.id, experiment.name)}
+                style={{ color: 'red', cursor: 'pointer' }}
               >
                 {experiment.name}
               </td>
-              <td>{new Date(experiment.date).toLocaleDateString()}</td>
-              <td>{experiment.date_started ? new Date(experiment.date_started).toLocaleDateString() : 'N/A'}</td>
+              <td>{experiment.date}</td>
+              <td>{experiment.date_started ? experiment.date_started : 'N/A'}</td>
             </tr>
           ))}
         </tbody>

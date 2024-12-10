@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import Nav from '../components/Nav';
-import AddRun from './AddRun';
+import AddRun from './AddRun';  // Assuming AddRun handles adding a new run
 import AddOperator from './AddOperator';
-import AddBarcode from './AddBarcode'; // Import AddBarcode
-import AddLibPrep from './AddLibPrep'; // Import AddLibPrep
-import AddSeqUnit from './AddSeqUnit'; // Import AddSeqUnit
+import AddBarcode from './AddBarcode'; 
+import AddLibPrep from './AddLibPrep'; 
+import AddSeqUnit from './AddSeqUnit'; 
 import './AddRun.css';
 import './RunList.css';
 
@@ -13,11 +13,7 @@ const RunList = () => {
   const [experimentName, setExperimentName] = useState('');
   const [runs, setRuns] = useState([]);
   const [error, setError] = useState('');
-  const [showAddRunModal, setShowAddRunModal] = useState(false); // State for AddRun modal
-  const [showAddOperatorModal, setShowAddOperatorModal] = useState(false); // State for AddOperator modal
-  const [showAddBarcodeModal, setShowAddBarcodeModal] = useState(false); // State for AddBarcode modal
-  const [showAddLibPrepModal, setShowAddLibPrepModal] = useState(false); // State for AddLibPrep modal
-  const [showAddSeqUnitModal, setShowAddSeqUnitModal] = useState(false); // State for AddSeqUnit modal
+  const [currentModal, setCurrentModal] = useState(null); // State to track which modal is open
   const location = useLocation();
 
   // Extract experiment ID and name from the URL search params
@@ -65,6 +61,7 @@ const RunList = () => {
             <th>Computer</th>
             <th>Minion</th>
             <th>Notes</th>
+            <th>Actions</th> {/* Column for the action buttons */}
           </tr>
         </thead>
         <tbody>
@@ -74,6 +71,13 @@ const RunList = () => {
               <td>{run.computer}</td>
               <td>{run.minion}</td>
               <td>{run.notes}</td>
+              <td>
+                {/* Action buttons for each row */}
+                <button onClick={() => openModal('addOperator', run.id)} className="action-button">Add Operator</button>
+                <button onClick={() => openModal('addBarcode', run.id)} className="action-button">Add Barcode</button>
+                <button onClick={() => openModal('addLibPrep', run.id)} className="action-button">Add Library Prep</button>
+                <button onClick={() => openModal('addSeqUnit', run.id)} className="action-button">Add Sequencing Unit</button>
+              </td>
             </tr>
           ))}
         </tbody>
@@ -81,8 +85,19 @@ const RunList = () => {
     );
   };
 
-  const closeModal = (setModalState) => {
-    setModalState(false); // Close modal when called
+  // Close any open modal
+  const closeModal = () => {
+    setCurrentModal(null); // Reset the modal state to close the modal
+  };
+
+  // Open the specified modal, and close any other that might be open
+  const openModal = (modalName, runId) => {
+    setCurrentModal({ modalName, runId }); // Set the modal state to the specified modal name and run ID
+  };
+
+  // Handle adding a new run (called from AddRun component)
+  const handleAddRun = (newRun) => {
+    setRuns([...runs, newRun]); // Add the new run to the list
   };
 
   return (
@@ -95,91 +110,66 @@ const RunList = () => {
             {experimentName ? experimentName : 'Loading experiment details...'}
           </span>
         </h2>
-        <div className="buttons-group">
-          <button className="add-run-button" onClick={() => setShowAddRunModal(true)}>
-            Add Run
-          </button>
-          <button
-            className="add-operator-button"
-            onClick={() => setShowAddOperatorModal(true)}
-          >
-            Add Operator
-          </button>
-          <button
-            className="add-barcode-button"
-            onClick={() => setShowAddBarcodeModal(true)}
-          >
-            Add Barcode
-          </button>
-          <button
-            className="add-libprep-button"
-            onClick={() => setShowAddLibPrepModal(true)}
-          >
-            Add Library Prep
-          </button>
-          <button
-            className="add-sequencing-unit-button"
-            onClick={() => setShowAddSeqUnitModal(true)}
-          >
-            Add Sequencing Unit
-          </button>
-        </div>
+        {/* Button to open the "Add Run" modal */}
+        <button className="add-run-button" onClick={() => openModal('addRun')}>
+          Add Run
+        </button>
       </div>
       {error && <p className="error">{error}</p>}
       {renderTable()}
 
       {/* Modals */}
-      {showAddRunModal && (
+      {currentModal && currentModal.modalName === 'addRun' && (
         <div className="modal-overlay">
           <div className="modal-content">
-            <button className="close-modal" onClick={() => closeModal(setShowAddRunModal)}>
+            <button className="close-modal" onClick={closeModal}>
               &times;
             </button>
-            <AddRun />
+            <AddRun onClose={closeModal} onSubmit={handleAddRun} /> {/* Pass the handler to AddRun */}
           </div>
         </div>
       )}
 
-      {showAddOperatorModal && (
+      {currentModal && currentModal.modalName === 'addOperator' && (
         <div className="modal-overlay">
           <div className="modal-content">
-            <button className="close-modal" onClick={() => closeModal(setShowAddOperatorModal)}>
+            <button className="close-modal" onClick={closeModal}>
               &times;
             </button>
-            <AddOperator />
+            <AddOperator runId={currentModal.runId} />
           </div>
         </div>
       )}
 
-      {showAddBarcodeModal && (
+      {currentModal && currentModal.modalName === 'addBarcode' && (
         <div className="modal-overlay">
           <div className="modal-content">
-            <button className="close-modal" onClick={() => closeModal(setShowAddBarcodeModal)}>
+            <button className="close-modal" onClick={closeModal}>
               &times;
             </button>
-            <AddBarcode />
+            <AddBarcode runId={currentModal.runId} />
           </div>
         </div>
       )}
 
-      {showAddLibPrepModal && (
+      {currentModal && currentModal.modalName === 'addLibPrep' && (
         <div className="modal-overlay">
           <div className="modal-content">
-            <button className="close-modal" onClick={() => closeModal(setShowAddLibPrepModal)}>
+            <button className="close-modal" onClick={closeModal}>
               &times;
             </button>
-            <AddLibPrep />
+            <AddLibPrep runId={currentModal.runId} />
           </div>
         </div>
       )}
 
-      {showAddSeqUnitModal && (
+      {currentModal && currentModal.modalName === 'addSeqUnit' && (
         <div className="modal-overlay">
           <div className="modal-content">
-            <button className="close-modal" onClick={() => closeModal(setShowAddSeqUnitModal)}>
+            <button className="close-modal" onClick={closeModal}>
               &times;
             </button>
-            <AddSeqUnit />
+            <AddSeqUnit runId={currentModal.runId} />
           </div>
         </div>
       )}

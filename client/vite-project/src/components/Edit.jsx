@@ -31,14 +31,16 @@ const Edit = ({ row, onSave, onCancel }) => {
   return (
       <tr className="edit-row">
           {Object.entries(editedRow).map(([key, value]) => (
-              <td key={key}>
-                  <input
-                      type="text"
-                      value={value}
-                      onChange={(e) => handleInputChange(e, key)}
-                      className="edit-input"
-                  />
-              </td>
+              key !== 'id' && (  // Exclude the 'id' from being displayed
+                  <td key={key}>
+                      <input
+                          type="text"
+                          value={value}
+                          onChange={(e) => handleInputChange(e, key)}
+                          className="edit-input"
+                      />
+                  </td>
+              )
           ))}
           <td>
               <button onClick={handleSave} className="save-button">Save</button>

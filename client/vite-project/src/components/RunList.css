@@ -6,6 +6,7 @@
   h1 {
     font-size: 2rem;
     text-align: center;
+    margin-top:75px;
   }
   
   h2 {
@@ -36,3 +37,6 @@
     margin-top: 20px;
   }
   
+  .experiment-name {
+    color: red;
+  }

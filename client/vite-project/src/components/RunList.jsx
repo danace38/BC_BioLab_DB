@@ -74,8 +74,12 @@ const RunList = () => {
   return (
     <div className="runs-container">
       <Nav />
-      <h1>Runs for Experiment</h1>
-      <h2>{experimentName ? `Experiment: ${experimentName}` : 'Loading experiment details...'}</h2> {/* Display experiment name */}
+      <h1>Runs for Experiment:</h1>
+      <h2>
+        <span className="experiment-name">
+           {experimentName ? experimentName : 'Loading experiment details...'}
+           </span>
+           </h2>
       {error && <p className="error">{error}</p>}
       {renderTable()}
     </div>

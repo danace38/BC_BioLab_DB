@@ -38,7 +38,9 @@ body, html {
   height: auto; /* Maintain aspect ratio */
   max-height: 80px; /* Ensure it doesn't exceed navbar height */
   object-fit: contain; /* Maintain aspect ratio */
-  margin-right: 10px; /* Space between logo and text */
+  margin-right: 30px; /* Space between logo and text */
+  float: left;
+
 }
 
 .nav-links {

@@ -70,7 +70,7 @@ function AddExperiment({ isOpen, onClose, onSubmit }) {
             name="protocol"
             value={formData.protocol}
             onChange={handleInputChange}
-            placeholder="Protocol"
+            placeholder="Link to the Protocol"
             required
           />
           <input
@@ -78,7 +78,7 @@ function AddExperiment({ isOpen, onClose, onSubmit }) {
             name="metadata"
             value={formData.metadata}
             onChange={handleInputChange}
-            placeholder="Metadata"
+            placeholder="Link to the Metadata"
             required
           />
           <input

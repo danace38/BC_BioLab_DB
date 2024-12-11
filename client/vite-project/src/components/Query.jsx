@@ -13,6 +13,7 @@ const Query = () => {
     const [successMessage, setSuccessMessage] = useState(null);
     const [editingRow, setEditingRow] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
+    const [allData, setAllData] = useState([]); // Store unfiltered data
 
     const tables = [
         'experiment', 'run', 'barcode', 'computer', 'library_prep',
@@ -21,22 +22,20 @@ const Query = () => {
 
     useEffect(() => {
         fetchData();
-    }, [currentPage, tableName, keyword]);
+    }, [currentPage, tableName]);
 
     const fetchData = async () => {
         setIsLoading(true);
         setError(null);
         setSuccessMessage(null); // Reset success message on new fetch
         try {
-            let url = `http://localhost:8000/api/data/${tableName}?page=${currentPage}&limit=50`;
-            if (keyword) {
-                url += `&search=${encodeURIComponent(keyword)}`;
-            }
+            const url = `http://localhost:8000/api/data/${tableName}?page=${currentPage}&limit=50`;
             const response = await fetch(url);
             const result = await response.json();
 
             if (response.ok) {
-                setData(result);
+                setAllData(result);
+                applySearch(result); // Filter the data based on the keyword
             } else {
                 throw new Error(result.message || 'Error fetching data');
             }
@@ -45,6 +44,25 @@ const Query = () => {
         } finally {
             setIsLoading(false);
         }
+    };
+
+    const applySearch = (fetchedData) => {
+        if (!keyword.trim()) {
+            setData(fetchedData);
+            return;
+        }
+
+        const filteredData = fetchedData.filter(row =>
+            Object.values(row).some(value =>
+                value?.toString().toLowerCase().includes(keyword.toLowerCase())
+            )
+        );
+
+        setData(filteredData);
+    };
+
+    const handleSearch = () => {
+        applySearch(allData); // Apply the filter on allData
     };
 
     const handlePrevPage = () => {
@@ -61,11 +79,7 @@ const Query = () => {
         setTableName(e.target.value);
         setCurrentPage(1);
         setKeyword('');
-    };
-
-    const handleSearch = () => {
-        setCurrentPage(1);
-        fetchData();
+        fetchData(); // Fetch new table data
     };
 
     const handleEdit = (row) => {
@@ -126,7 +140,7 @@ const Query = () => {
         <div className="container">
             <Nav />
             <h1 className="header">Database Query with Search</h1>
-            
+
             <div className="controls">
                 <div>
                     <label htmlFor="tableSelect">Select Table:</label>
@@ -136,9 +150,9 @@ const Query = () => {
                         ))}
                     </select>
                 </div>
-                
+
                 <div>
-                    <input 
+                    <input
                         type="text"
                         value={keyword}
                         onChange={(e) => setKeyword(e.target.value)}
@@ -181,14 +195,14 @@ const Query = () => {
                                                 <td key={idx} className="query-td">{value}</td>
                                             ))}
                                             <td className="query-td">
-                                                <button 
-                                                    onClick={() => handleEdit(row)} 
+                                                <button
+                                                    onClick={() => handleEdit(row)}
                                                     className="edit-button"
                                                 >
                                                     Edit
                                                 </button>
                                                 <button
-                                                    onClick={() => handleDelete(row)} 
+                                                    onClick={() => handleDelete(row)}
                                                     className="delete-button"
                                                 >
                                                     Delete

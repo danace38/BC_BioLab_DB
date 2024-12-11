@@ -83,19 +83,6 @@ function AddMinion({ isOpen, onClose, onSubmit }) {
             placeholder="Minion Name"
             required
           />
-          {/* Dropdown for selecting Computer Used */}
-          <select
-            value={computerUsed}
-            onChange={(e) => handleInputChange(e, setComputerUsed)}
-            required
-          >
-            <option value="">Select a computer</option>
-            {computers.map((computer) => (
-              <option key={computer.id} value={computer.device_name}>
-                {computer.device_name}
-              </option>
-            ))}
-          </select>
           <input
             type="date"
             value={deviceDate}
